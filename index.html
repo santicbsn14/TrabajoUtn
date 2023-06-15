@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Adivina la palabra</title>
+</head>
+<body>
+  <h1>Adivina la palabra</h1>
+
+  <form id="wordForm">
+    <label for="secretWord">Palabra secreta:</label>
+    <input type="text" id="secretWord" />
+    <br />
+    <button type="button" onclick="cargarPalabra()">Cargar palabra</button>
+    <br />
+    <label for="letter">Ingresa una letra:</label>
+    <input type="text" id="letter" />
+    <button type="button" onclick="descubrirPalabra()">Descubrir</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    // Variables globales
+    let palabraSecreta = "";
+    let palabraDescubierta = "";
+    let intentos = 0;
+    let maximoIntentos = 7;
+
+    // Función para cargar una palabra
+    function cargarPalabra() {
+      palabraSecreta = document.getElementById("secretWord").value;
+      palabraDescubierta = "*".repeat(palabraSecreta.length);
+      intentos = 0;
+      document.getElementById("result").innerHTML = "¡Palabra cargada exitosamente!";
+    }
+
+    // Función para descubrir la palabra
+    function descubrirPalabra() {
+      let letra = document.getElementById("letter").value;
+      let acierto = false;
+      let nuevaPalabraDescubierta = "";
+
+      for (let i = 0; i < palabraSecreta.length; i++) {
+        if (palabraSecreta[i] === letra) {
+          nuevaPalabraDescubierta += letra;
+          acierto = true;
+        } else {
+          nuevaPalabraDescubierta += palabraDescubierta[i];
+        }
+      }
+
+      palabraDescubierta = nuevaPalabraDescubierta;
+      document.getElementById("result").innerHTML = palabraDescubierta;
+
+      if (!palabraDescubierta.includes("*")) {
+        document.getElementById("result").innerHTML = "¡GANASTE! Has descubierto la palabra.";
+        return;
+      }
+
+      if (!acierto) {
+        intentos++;
+        document.getElementById("result").innerHTML = "Fallo " + intentos + " de " + maximoIntentos;
+      }
+    }
+  </script>
+</body>
+</html>
